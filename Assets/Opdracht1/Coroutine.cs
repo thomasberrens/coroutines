@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Coroutine : MonoBehaviour
 {
+
+    [SerializeField] private float shadeTime = 0.2f;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -17,6 +20,11 @@ public class Coroutine : MonoBehaviour
         {
             StartCoroutine(Check());
         }
+
+        if (Input.GetKeyDown("c"))
+        {
+            StartCoroutine(Fade());
+        }
     }
 
     IEnumerator Check()
@@ -29,5 +37,21 @@ public class Coroutine : MonoBehaviour
         }
         
         Debug.Log("coroutine einde");
+    }
+
+    IEnumerator Fade()
+    {
+        Debug.Log("Begin shading");
+        for (float ft = 1f; ft >= 0; ft -= 0.1f) 
+        {
+            
+            Color c = GetComponent<Renderer>().material.color;
+            c.a = ft;
+            GetComponent<Renderer>().material.color = c;
+            
+            Debug.Log("UPDATE");
+            yield return new WaitForSeconds(shadeTime);
+        }
+        Debug.Log("End of shade");
     }
 }
