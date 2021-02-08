@@ -6,11 +6,14 @@ public class Coroutine : MonoBehaviour
 {
 
     [SerializeField] private float shadeTime = 0.2f;
-    
+    [SerializeField] private Transform startMark;
+    [SerializeField] private Transform endMark;
+    [SerializeField] private float waitTime = 3f;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -24,6 +27,11 @@ public class Coroutine : MonoBehaviour
         if (Input.GetKeyDown("c"))
         {
             StartCoroutine(Fade());
+        }
+        
+        if (Input.GetKeyDown("space"))
+        {
+            StartCoroutine(Move());
         }
     }
 
@@ -53,5 +61,26 @@ public class Coroutine : MonoBehaviour
             yield return new WaitForSeconds(shadeTime);
         }
         Debug.Log("End of shade");
+    }
+
+    IEnumerator Move()
+    {
+        Debug.Log("Begin moving");
+        
+        float elapsedTime = 0;
+        
+        while (elapsedTime < waitTime)
+        {
+            transform.position = Vector3.Lerp(startMark.position, endMark.position, (elapsedTime / waitTime));
+            elapsedTime += Time.deltaTime;
+            
+            Debug.Log("Update movement");
+            // Yield here
+            yield return null;
+        } 
+        
+        Debug.Log("Stop moving");
+        transform.position = endMark.position;
+        yield return null;
     }
 }
