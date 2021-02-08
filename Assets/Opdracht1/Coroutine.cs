@@ -22,9 +22,12 @@ public class Coroutine : MonoBehaviour
     IEnumerator Check()
     {
         Debug.Log("Ik start nu de coroutine");
-        yield return new WaitForSeconds(0.5f);
-        Debug.Log("coroutine update");
-        yield return new WaitForSeconds(0.5f);
+        for (int i = 0; i < 10; i++)
+        {
+            Debug.Log(i + ". Coroutine update");
+            yield return new WaitForSeconds(0.5f);
+        }
+        
         Debug.Log("coroutine einde");
     }
 }
